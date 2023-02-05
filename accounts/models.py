@@ -1,5 +1,3 @@
-import datetime
-
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django_jalali.db import models as jmodels
@@ -31,3 +29,12 @@ class User(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
+
+
+class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='profile')
+    name = models.CharField(max_length=100, null=True, blank=True)
+    age = models.IntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user}--{self.name}"
