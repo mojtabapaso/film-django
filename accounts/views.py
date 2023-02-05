@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from accounts.serializers import RegisterSerializers, LoginSerializers, ProfileSerializers
+from permissions import IsOwnerProfile
 from .models import Profile
 
 
@@ -47,13 +48,13 @@ class ProfileShowAPIView(APIView):
 
 
 class ProfileUpdateAPIView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOwnerProfile]
 
     def put(self, request, pk):
         profile = Profile.objects.get(pk=pk)
+        self.check_object_permissions(request, profile)
         ser_data = ProfileSerializers(instance=profile, data=request.POST, partial=True)
         if ser_data.is_valid():
             ser_data.save()
             return Response(ser_data.data, status=status.HTTP_200_OK)
         return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
-
