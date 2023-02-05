@@ -35,10 +35,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Local App
-    'accounts.apps.AccountsConfig'
-    'pages.apps.PagesConfig'
-    'repository.apps.RepositoryConfig'
+    # Local App's
+    'accounts.apps.AccountsConfig',
+    'pages.apps.PagesConfig',
+    'repository.apps.RepositoryConfig',
+    # Thread Party App's
+    'rest_framework',
+    
+    # -----
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -102,7 +107,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'ir-fa'
+
+LANGUAGE_CODE = 'fa-ir'
 
 TIME_ZONE = 'Asia/Tehran'
 
@@ -119,3 +125,23 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Django Rest Framework
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
+    ],
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '3/hour',
+        'user': '10/day'
+    }
+
+}
+# Custom user model
+AUTH_USER_MODEL = 'accounts.User'
