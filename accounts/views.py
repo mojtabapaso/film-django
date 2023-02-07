@@ -11,6 +11,11 @@ from .models import Profile
 
 
 class RegisterAPIView(APIView):
+    """
+    Register user in this user with email and password
+    """
+    serializer_class = RegisterSerializers
+
     def post(self, request):
         ser_data = RegisterSerializers(data=request.POST)
         if ser_data.is_valid():
@@ -20,6 +25,12 @@ class RegisterAPIView(APIView):
 
 
 class LoginAPIView(APIView):
+    """
+    Login url
+    input : email and password
+    output : token authenticated
+    """
+    serializer_class = LoginSerializers
     def post(self, request):
         ser_data = LoginSerializers(data=request.POST, context={'request': request})
         if ser_data.is_valid():
@@ -31,6 +42,9 @@ class LoginAPIView(APIView):
 
 
 class LogoutAPIView(APIView):
+    """
+     User must be authenticated for this URL
+     """
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -39,7 +53,12 @@ class LogoutAPIView(APIView):
 
 
 class ProfileShowAPIView(APIView):
-    permission_classes = [IsAuthenticated]
+    """
+     User must be authenticated for this URL
+     Show profile user
+     """
+    serializer_class = ProfileSerializers
+    permission_classes = [IsAuthenticated, IsOwnerProfile]
 
     def get(self, request):
         profile = Profile.objects.get(user=request.user)
@@ -48,8 +67,12 @@ class ProfileShowAPIView(APIView):
 
 
 class ProfileUpdateAPIView(APIView):
+    """
+        User must be authenticated for this URL
+        Update information in profile user
+        """
     permission_classes = [IsAuthenticated, IsOwnerProfile]
-
+    serializer_class = ProfileSerializers
     def put(self, request, pk):
         profile = Profile.objects.get(pk=pk)
         self.check_object_permissions(request, profile)

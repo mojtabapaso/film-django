@@ -44,6 +44,7 @@ class LoginSerializers(serializers.Serializer):
 
 
 class ProfileSerializers(serializers.ModelSerializer):
+    user = serializers.StringRelatedField()
     class Meta:
         model = Profile
         fields = "__all__"
