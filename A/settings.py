@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'repository.apps.RepositoryConfig',
     # Thread Party App's
     'rest_framework',
-    
-    # -----
+    'drf_spectacular',
+
     'ckeditor',
 ]
 
@@ -125,23 +125,30 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
+# Custom user model
+AUTH_USER_MODEL = 'accounts.User'
 # Django Rest Framework
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         # 'rest_framework.authentication.TokenAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication'
-    ],
-    'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.AnonRateThrottle',
-        'rest_framework.throttling.UserRateThrottle'
-    ],
-    'DEFAULT_THROTTLE_RATES': {
-        'anon': '3/hour',
-        'user': '10/day'
-    }
+        'rest_framework_simplejwt.authentication.JWTAuthentication'],
+
+    'DEFAULT_THROTTLE_CLASSES': ['rest_framework.throttling.AnonRateThrottle',
+                                 'rest_framework.throttling.UserRateThrottle'],
+
+    'DEFAULT_THROTTLE_RATES': {'anon': '100/hour', 'user': '1000/day'},
+
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        # 'rest_framework.renderers.BrowsableAPIRenderer',
+    ]
+}
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Film Site Rest ',
+    'DESCRIPTION': 'Your project description',
+    'VERSION': '1.0.0',
 
 }
-# Custom user model
-AUTH_USER_MODEL = 'accounts.User'
