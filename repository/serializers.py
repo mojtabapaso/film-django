@@ -12,9 +12,3 @@ class FilmSerializers(serializers.ModelSerializer):
     class Meta:
         model = Film
         fields = '__all__'
-
-
-class FilmShowSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = Film
-        exclude = ('file',)
