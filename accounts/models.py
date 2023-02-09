@@ -4,7 +4,7 @@ from django_jalali.db import models as jmodels
 from .managers import UserManager
 
 
-class User(AbstractBaseUser):
+class User(PermissionsMixin, AbstractBaseUser):
     email = models.EmailField(max_length=200, unique=True, verbose_name="ایمیل")
     is_active = models.BooleanField(default=True, verbose_name="فعال")
     is_admin = models.BooleanField(default=False, verbose_name="مدیر")
