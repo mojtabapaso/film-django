@@ -9,4 +9,6 @@ urlpatterns = [
     path('search/', views.FilmSearchAPIView.as_view()),
     path('filter/', views.FilterTypeAPIView.as_view()),
     path('genre/<str:slug_genre>/', views.FilterGenreAPIView.as_view()),
+    path('add/command/<str:slug_film>/', views.CreateCommandAPIView.as_view()),
+    path('add/command/<str:slug_film>/<int:pk_command>/', views.CreateAnswerCommandAPIView.as_view()),
 ]
