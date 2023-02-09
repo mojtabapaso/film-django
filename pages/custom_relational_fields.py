@@ -7,3 +7,8 @@ class UserProfileNameRetionalFields(serializers.RelatedField):
             self.name = i.name
             return f'{self.name}'
         return None
+
+
+class NameFilmOrSerialRelational(serializers.RelatedField):
+    def to_representation(self, value):
+        return f'{value.name}'

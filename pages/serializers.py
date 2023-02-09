@@ -1,10 +1,11 @@
 from rest_framework import serializers
-from .custom_relational_fields import UserProfileNameRetionalFields
+from .custom_relational_fields import UserProfileNameRetionalFields, NameFilmOrSerialRelational
 from .models import Command
 
 
 class CommandSerializers(serializers.ModelSerializer):
     user = UserProfileNameRetionalFields(read_only=True)
+    film = NameFilmOrSerialRelational(read_only=True)
 
     class Meta:
         model = Command
